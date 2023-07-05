@@ -1,14 +1,17 @@
 import os.path
-import sys
 from src.logger import logging
 from src.exception import CustomException
 import zipfile
 import boto3
-from datetime import datetime
+import json
 
 cur_dir = os.path.curdir
 zip_file_path = os.path.join(cur_dir, "zipfile.zip")
-region = 'us-east-1'
+
+with open('config.json', 'r') as config_file:
+    config = json.load(config_file)
+
+region = config["region"]
 boto3.setup_default_session(region_name=region)
 
 

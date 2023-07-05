@@ -10,7 +10,10 @@ def create_cloudwatch_event_rule(zipfile_name, user_name, schedule_time, user_em
     logging.info("Initializing: Event scheduling process initiated.")
 
     try:
-        region = "us-east-1"
+        with open('config.json', 'r') as config_file:
+            config = json.load(config_file)
+
+        region = config['region']
         current_datetime = datetime.now()
         rule_name = f"ISER-{current_datetime.strftime('%Y%m%d%H%M%S')}"
         boto3.setup_default_session(region_name=region)
@@ -26,8 +29,8 @@ def create_cloudwatch_event_rule(zipfile_name, user_name, schedule_time, user_em
             }
         }
 
-        function1_arn = "arn:aws:lambda:us-east-1:084378148140:function:myLambdaScrapper"
-        function_name = 'myLambdaScrapper'
+        function_arn = config['function_arn']
+        function_name = config['function_name']
 
         input_transformer = {
             "InputPathsMap": {
@@ -59,7 +62,7 @@ def create_cloudwatch_event_rule(zipfile_name, user_name, schedule_time, user_em
             Targets=[
                 {
                     'Id': '1',
-                    'Arn': function1_arn,
+                    'Arn': function_arn,
                     'InputTransformer': {
                         'InputPathsMap': input_transformer['InputPathsMap'],
                         'InputTemplate': input_transformer['InputTemplate']
