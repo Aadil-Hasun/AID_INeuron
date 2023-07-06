@@ -15,7 +15,8 @@ from src.scheduler import create_cloudwatch_event_rule
 from src.scraper_s3 import ScrapData
 from src.utils import is_email_verified, verify_email
 
-app = Flask(__name__)
+application = Flask(__name__)
+app = application
 cors = CORS(app, origins="*")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
