@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request
 import os
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from flask_migrate import Migrate
 from sqlalchemy.orm import backref
 from flask_bootstrap import Bootstrap
@@ -15,6 +16,7 @@ from src.scraper_s3 import ScrapData
 from src.utils import is_email_verified, verify_email
 
 app = Flask(__name__)
+cors = CORS(app, origins="*")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 path = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
@@ -209,5 +211,5 @@ with app.app_context():
 
     if __name__ == '__main__':
         db.create_all()
-        app.run("localhost", port=5006, debug=True)
+        app.run()
 
