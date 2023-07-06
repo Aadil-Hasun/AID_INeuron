@@ -18,13 +18,17 @@ from src.utils import is_email_verified, verify_email
 application = Flask(__name__)
 app = application
 cors = CORS(app, origins="*")
+# Setup DB locally
+# basedir = os.path.abspath(os.path.dirname(__file__))
+# path = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+# app.config['SECRET_KEY'] = 'This_is_a_secret'
+# app.config['SQLALCHEMY_DATABASE_URI'] = path
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SECRET_KEY'] = 'This_is_a_secret'
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-path = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
-app.config['SECRET_KEY'] = 'This_is_a_secret'
-app.config['SQLALCHEMY_DATABASE_URI'] = path
+# Setup MySQL DB in AmazonRDS
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:0om8bp3Xt8ObEXUKhDEi@database-1.cdowbww7usdc.us-east-1.rds.amazonaws.com:3306/database-1'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'This_is_a_secret'
 
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
