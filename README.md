@@ -9,7 +9,7 @@
 
 ## Architecture
 ### Overview of the architecture:
-![img.png](architecture.png)
+![architecture.png](architecture.png)
 
 #### 1. User provides category name, schedule time, number of images to be downloaded, and email via a website.
 #### 2. Images relevant to the category are scraped, zipped and stored in the AWS S3 bucket.
