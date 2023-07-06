@@ -6,9 +6,12 @@ import boto3
 import json
 
 cur_dir = os.path.curdir
+src_path = os.path.join(cur_dir, "src")
+CONFIG_FILE_PATH = os.path.join(src_path, "config.json")
+
 zip_file_path = os.path.join(cur_dir, "zipfile.zip")
 
-with open('config.json', 'r') as config_file:
+with open(CONFIG_FILE_PATH, 'r') as config_file:
     config = json.load(config_file)
 
 region = config["region"]
@@ -21,8 +24,8 @@ def save_image_to_s3(image_data, user_name, filename):
         s3_client = boto3.client('s3')
 
         s3_key = f"Images/{user_name}/{filename}"
-        print(f"Inside save_image_s3: {s3_key}")
-        s3_client.put_object(Body=image_data, Bucket="ineuron-img-dwnld", Key=s3_key)
+        # print(f"Inside save_image_s3: {s3_key}")
+        s3_client.put_object(Body=image_data, Bucket=config["bucket_name"], Key=s3_key)
         logging.info("Completed: Successfully uploaded zip to S3 bucket")
     except Exception as e:
         logging.error("Error occurred while uploading the zip file to S3")

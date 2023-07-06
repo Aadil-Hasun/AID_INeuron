@@ -11,10 +11,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 import json
 
-from src.utils import zip_images_folder, save_image_to_s3, delete_files
+from src.utils import zip_images_folder, save_image_to_s3, delete_files, CONFIG_FILE_PATH
 from src.logger import logging
 
-with open('config.json', 'r') as config_file:
+with open(CONFIG_FILE_PATH, 'r') as config_file:
     config = json.load(config_file)
 
 s3_bucket_name = config['bucket_name']

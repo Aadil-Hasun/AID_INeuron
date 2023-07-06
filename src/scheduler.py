@@ -4,13 +4,15 @@ import json
 
 from src.logger import logging
 from src.exception import CustomException
+from src.utils import CONFIG_FILE_PATH
 
 
 def create_cloudwatch_event_rule(zipfile_name, user_name, schedule_time, user_email):
     logging.info("Initializing: Event scheduling process initiated.")
 
     try:
-        with open('config.json', 'r') as config_file:
+
+        with open(CONFIG_FILE_PATH, 'r') as config_file:
             config = json.load(config_file)
 
         region = config['region']
