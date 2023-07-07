@@ -27,8 +27,9 @@ cors = CORS(app, origins="*")
 # app.config['SECRET_KEY'] = 'This_is_a_secret'
 
 # Setup MySQL DB in AmazonRDS
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:0om8bp3Xt8ObEXUKhDEi@database-1.cdowbww7usdc.us-east-1.rds.amazonaws.com:3306/database-1'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@dbaid.cdowbww7usdc.us-east-1.rds.amazonaws.com:3306/aidusers'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'Unique_Secret_Key'
 
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
@@ -65,9 +66,9 @@ with app.app_context():
     class Users(UserMixin, db.Model):
         __tablename__ = 'users'
         id = db.Column(db.Integer, primary_key=True)
-        name = db.Column(db.String(), unique=True)
-        email = db.Column(db.String())
-        password = db.Column(db.String())
+        name = db.Column(db.String(40), unique=True)
+        email = db.Column(db.String(255))
+        password = db.Column(db.String(16))
 
         def __init__(self, name, email, password):
             self.name = name
@@ -80,7 +81,7 @@ with app.app_context():
         id = db.Column(db.Integer(), primary_key=True)
         date_time = db.Column(db.DateTime())
         schedule_time = db.Column(db.DateTime())
-        category_name = db.Column(db.String())
+        category_name = db.Column(db.String(255))
         user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
         users = db.relationship("Users", backref=backref("users", uselist=False))
 
@@ -183,7 +184,7 @@ with app.app_context():
                     rule = create_cloudwatch_event_rule(zipfile_name, current_user.name, schedule_expression,
                                                         send_to_email)
 
-                    return render_template('scrape.html', form=form, name=current_user.name, myrule=rule)
+                    return render_template('scrape.html', form=form, name=current_user.name, myrule=None)
         return render_template('scrape.html', form=form, name=current_user.name)
 
 
