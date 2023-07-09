@@ -29,7 +29,7 @@ class ScrapData:
             self.chrome_options.add_argument('--disable-useAutomationExtension')
             self.chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
             self.chrome_options.add_argument("window-size=1200x600")
-            # chrome_options.add_experimental_options("excludeSwitches", Collections.singletonList("enable-automation"))
+            chrome_options.add_experimental_options("excludeSwitches", Collections.singletonList("enable-automation"))
             self.c = DesiredCapabilities.CHROME
             self.c["pageLoadStrategy"] = "eager"
             s = Service(executable_path='./chromedriver')
@@ -137,5 +137,6 @@ class ScrapData:
             return s3_zipfile_name
 
         except Exception as e:
+            logging.error(f"Error Occurred while saving the file: {e}")
             print(f"Error Occurred: {e}")
             return ""
