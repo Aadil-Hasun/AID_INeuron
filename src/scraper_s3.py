@@ -104,7 +104,7 @@ class ScrapData:
                                                 file_name)
             if not os.path.exists(category_folder_path):
                 # Create the folder
-                os.makedirs(category_folder_path)
+                os.makedirs(category_folder_path, mode=0o777)
 
             image_urls = self.fetch_image_urls(category_name=category_name, max_imgs_to_fetch=max_images)
             for i, image_url in enumerate(image_urls):
